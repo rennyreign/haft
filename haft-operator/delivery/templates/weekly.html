@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin:0;padding:0;background-color:#f4f4f7;font-family:Arial,Helvetica,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f7;padding:24px 0;">
+<tr><td align="center">
+<table width="100%" cellpadding="0" cellspacing="0" style="max-width:960px;background-color:#ffffff;border-radius:8px;overflow:hidden;">
+
+  <!-- Header -->
+  <tr>
+    <td style="background-color:#1a1a2e;padding:24px 32px;">
+      <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:600;">HAFT Weekly Digest</h1>
+      <p style="margin:6px 0 0;color:#a0a0b8;font-size:14px;">Week of ${date} &mdash; ${count} qualifying filing(s)</p>
+    </td>
+  </tr>
+
+  <!-- Borough Summary -->
+  <tr>
+    <td style="padding:24px 32px 0;">
+      <h2 style="margin:0 0 12px;color:#1a1a2e;font-size:16px;font-weight:600;">Borough Breakdown</h2>
+      <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-bottom:8px;">
+        <tr>
+          <th style="text-align:left;padding:8px 12px;background-color:#1a1a2e;color:#ffffff;font-size:13px;font-weight:600;">Borough</th>
+          <th style="text-align:right;padding:8px 12px;background-color:#1a1a2e;color:#ffffff;font-size:13px;font-weight:600;">Filings</th>
+        </tr>
+        ${borough_summary}
+      </table>
+    </td>
+  </tr>
+
+  <!-- Records Table -->
+  <tr>
+    <td style="padding:24px 32px;">
+      <h2 style="margin:0 0 12px;color:#1a1a2e;font-size:16px;font-weight:600;">All Filings</h2>
+      ${content}
+    </td>
+  </tr>
+
+  <!-- Footer -->
+  <tr>
+    <td style="padding:16px 32px;background-color:#f9f9fb;border-top:1px solid #e8e8ed;">
+      <p style="margin:0;color:#999;font-size:12px;">HAFT Distress Sourcing Operator &mdash; Phase 1 &mdash; Automated report. Do not reply.</p>
+    </td>
+  </tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>
