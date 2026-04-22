@@ -54,7 +54,7 @@ def _build_records_table(records: list[dict]) -> str:
         <th style="text-align:left;padding:10px 8px;background-color:#1a1a2e;color:#fff;font-weight:600;">Party 1</th>
         <th style="text-align:left;padding:10px 8px;background-color:#1a1a2e;color:#fff;font-weight:600;">Party 2</th>
         <th style="text-align:right;padding:10px 8px;background-color:#1a1a2e;color:#fff;font-weight:600;">Est. Balance</th>
-        <th style="text-align:center;padding:10px 8px;background-color:#1a1a2e;color:#fff;font-weight:600;">Confirmed</th>
+        <th style="text-align:left;padding:10px 8px;background-color:#1a1a2e;color:#fff;font-weight:600;">Balance Source</th>
         <th style="text-align:center;padding:10px 8px;background-color:#1a1a2e;color:#fff;font-weight:600;">ACRIS</th>
       </tr>
     """
@@ -62,7 +62,7 @@ def _build_records_table(records: list[dict]) -> str:
     rows = []
     for i, r in enumerate(records):
         bg = "#ffffff" if i % 2 == 0 else "#f9f9fb"
-        confirmed = "✓" if r.get("balance_confirmed") else "—"
+        balance_source = r.get("balance_source", "Manual lookup required")
         filing_date = (r.get("filing_date") or "")[:10]
         rows.append(f"""
       <tr style="background-color:{bg};">
@@ -73,7 +73,7 @@ def _build_records_table(records: list[dict]) -> str:
         <td style="padding:8px;border-bottom:1px solid #eee;">{r.get('party_1_name', 'N/A')}</td>
         <td style="padding:8px;border-bottom:1px solid #eee;">{r.get('party_2_name', 'N/A')}</td>
         <td style="padding:8px;border-bottom:1px solid #eee;text-align:right;">{_format_currency(r.get('estimated_loan_balance'))}</td>
-        <td style="padding:8px;border-bottom:1px solid #eee;text-align:center;">{confirmed}</td>
+        <td style="padding:8px;border-bottom:1px solid #eee;">{balance_source}</td>
         <td style="padding:8px;border-bottom:1px solid #eee;text-align:center;"><a href="{r.get('acris_url', '#')}" style="color:#1a73e8;text-decoration:none;">View</a></td>
       </tr>""")
 

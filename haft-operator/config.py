@@ -35,19 +35,11 @@ EXCLUDED_BOROUGHS = ["5"]
 
 # Pre-foreclosure / distress signal doc_type values.
 #
-# IMPORTANT — ACRIS DATA SOURCE LIMITATION:
-# Verified against live ACRIS API (16.9M records, 93 distinct doc_types, Apr 2026):
-# "LIS PENDENS", "LISPENDENS", "LP", and "NOTICE OF PENDENCY" do NOT exist in
-# the ACRIS Real Property Master (bnx9-e6tj) Open Data export. NYC Notices of
-# Pendency (lis pendens) appear to live in NY court records (NYSCEF), not ACRIS.
-#
-# "JUDG" (foreclosure judgments, 1,707 records in ACRIS) is the closest available
-# distress signal in this dataset. Most JUDG records carry a $0 document_amt, so
-# they will pass through the balance filter as unconfirmed and require manual review.
-#
-# To add a true lis pendens source, integrate the NY State UCS/NYSCEF API.
+# Verified against live ACRIS API (Apr 2026):
+# "PREL" = Notice of Pendency (lis pendens) — 118k+ records in ACRIS.
+# This is the correct doc_type for pre-foreclosure filings.
 DOC_TYPE_LIS_PENDENS = [
-    "JUDG",
+    "PREL",
 ]
 
 # ---------------------------------------------------------------------------

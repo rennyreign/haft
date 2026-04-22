@@ -31,33 +31,36 @@ def _passes_doc_type(record: dict) -> bool:
     return doc_type in [dt.upper() for dt in DOC_TYPE_LIS_PENDENS]
 
 
-def _parse_amount(record: dict) -> tuple[float | None, bool]:
+def _parse_amount(record: dict) -> tuple[float | None, str]:
     """
-    Parse docamount and determine balance_confirmed status.
+    Parse document_amt and determine balance_source label.
 
-    Returns (amount, balance_confirmed).
+    Returns (amount, balance_source).
+    balance_source values:
+      "ACRIS filing"           — amount present in the ACRIS record
+      "Manual lookup required" — field missing or zero in ACRIS
     """
     raw = record.get("document_amt")
     if raw is None or raw == "" or raw == "0" or raw == 0:
-        return None, False
+        return None, "Manual lookup required"
 
     try:
         amount = float(raw)
     except (ValueError, TypeError):
-        return None, False
+        return None, "Manual lookup required"
 
     if amount <= 0:
-        return None, False
+        return None, "Manual lookup required"
 
-    return amount, True
+    return amount, "ACRIS filing"
 
 
-def _passes_balance(amount: float | None, confirmed: bool) -> bool:
+def _passes_balance(amount: float | None, balance_source: str) -> bool:
     """
-    If balance is confirmed, it must be within the min/max range.
-    If unconfirmed (missing), the record is included.
+    If balance came from ACRIS, it must be within the min/max range.
+    If source is manual lookup (missing), the record is included.
     """
-    if not confirmed:
+    if balance_source != "ACRIS filing":
         return True
     return LOAN_BALANCE_MIN <= amount <= LOAN_BALANCE_MAX
 
@@ -66,7 +69,7 @@ def apply_filters(records: list[dict]) -> list[dict]:
     """
     Apply all qualifying criteria to a list of raw ACRIS master records.
 
-    Returns filtered records with `balance_confirmed` and
+    Returns filtered records with `balance_source` and
     `estimated_loan_balance` fields added.
     """
     filtered = []
@@ -83,14 +86,14 @@ def apply_filters(records: list[dict]) -> list[dict]:
             skipped_doc_type += 1
             continue
 
-        amount, confirmed = _parse_amount(record)
+        amount, balance_source = _parse_amount(record)
 
-        if not _passes_balance(amount, confirmed):
+        if not _passes_balance(amount, balance_source):
             skipped_balance += 1
             continue
 
         record["estimated_loan_balance"] = amount
-        record["balance_confirmed"] = confirmed
+        record["balance_source"] = balance_source
         filtered.append(record)
 
     logger.info(

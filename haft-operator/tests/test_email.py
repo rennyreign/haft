@@ -50,12 +50,12 @@ def _make_record(**kwargs):
         "property_address": "100 Main St, Manhattan",
         "borough": "Manhattan",
         "filing_date": "2026-04-01T00:00:00.000",
-        "document_type": "JUDG",
+        "document_type": "PREL",
         "document_id": "2026010100001001",
         "party_1_name": "ACME LENDER LLC",
         "party_2_name": "SMITH, JOHN",
         "estimated_loan_balance": None,
-        "balance_confirmed": False,
+        "balance_source": "Manual lookup required",
         "acris_url": "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentImageView?doc_id=2026010100001001",
         "signal_type": "Pre-foreclosure — lis pendens",
         "equity_routing": "",
@@ -74,19 +74,19 @@ def test_build_records_table_has_row():
     html = _build_records_table([_make_record()])
     assert "100 Main St" in html
     assert "ACME LENDER LLC" in html
-    assert "JUDG" in html
+    assert "PREL" in html
 
 
-def test_build_records_table_confirmed_balance():
-    html = _build_records_table([_make_record(estimated_loan_balance=5_000_000, balance_confirmed=True)])
+def test_build_records_table_acris_balance():
+    html = _build_records_table([_make_record(estimated_loan_balance=5_000_000, balance_source="ACRIS filing")])
     assert "$5,000,000" in html
-    assert "✓" in html
+    assert "ACRIS filing" in html
 
 
-def test_build_records_table_unconfirmed_balance():
+def test_build_records_table_manual_balance():
     html = _build_records_table([_make_record()])
     assert "N/A" in html
-    assert "—" in html
+    assert "Manual lookup required" in html
 
 
 def test_build_records_table_date_truncated():

@@ -87,7 +87,7 @@ def enrich_records(records: list[dict]) -> list[dict]:
             "party_1_name": _extract_parties(parties, "1"),
             "party_2_name": _extract_parties(parties, "2"),
             "estimated_loan_balance": record.get("estimated_loan_balance"),
-            "balance_confirmed": record.get("balance_confirmed", False),
+            "balance_source": record.get("balance_source", "Manual lookup required"),
             "acris_url": ACRIS_DOCUMENT_URL.format(document_id=document_id),
             "signal_type": SIGNAL_TYPE,
             "equity_routing": "",
