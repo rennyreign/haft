@@ -11,6 +11,8 @@ from config import (
     ACRIS_DOCUMENT_URL,
     ASSET_CLASS_FLAG,
     INCLUDED_BOROUGHS,
+    NYSCEF_COUNTY_IDS,
+    NYSCEF_SEARCH_URL,
     SIGNAL_TYPE,
 )
 from scraper.acris import fetch_legals, fetch_parties
@@ -78,20 +80,27 @@ def enrich_records(records: list[dict]) -> list[dict]:
             )
             continue
 
+        borough_name = _borough_name(borough_code)
+        balance_amount = record.get("estimated_loan_balance")
+        balance_source = record.get("balance_source", "Manual lookup required")
+        balance_confirmed = balance_source == "ACRIS filing" and balance_amount is not None
+
         enriched_record = {
             "property_address": _build_address(legals, borough_code),
-            "borough": _borough_name(borough_code),
+            "borough": borough_name,
             "filing_date": record.get("recorded_datetime", ""),
             "document_type": record.get("doc_type", ""),
             "document_id": document_id,
             "party_1_name": _extract_parties(parties, "1"),
             "party_2_name": _extract_parties(parties, "2"),
-            "estimated_loan_balance": record.get("estimated_loan_balance"),
-            "balance_source": record.get("balance_source", "Manual lookup required"),
+            "estimated_loan_balance": balance_amount,
+            "balance_confirmed": balance_confirmed,
+            "balance_source": balance_source,
             "acris_url": ACRIS_DOCUMENT_URL.format(document_id=document_id),
             "signal_type": SIGNAL_TYPE,
             "equity_routing": "",
             "asset_class_flag": ASSET_CLASS_FLAG,
+            "nyscef_url": NYSCEF_SEARCH_URL if _borough_name(borough_code) in NYSCEF_COUNTY_IDS else "",
         }
         enriched.append(enriched_record)
 

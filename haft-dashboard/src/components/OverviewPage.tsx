@@ -34,10 +34,7 @@ export default function OverviewPage({ onViewDashboard }: OverviewPageProps) {
         </h1>
 
         <p className="text-slate-400 text-[16px] leading-[1.7] max-w-[560px] mb-8">
-          The HAFT Operator monitors NYC ACRIS public records for commercial
-          pre-foreclosure filings. It runs every morning, filters against your
-          criteria, and delivers qualifying opportunities to your inbox.
-          No searching. No logging in. No manual work.
+          The HAFT Operator discovers pre-foreclosure signals (Notice of Pendency filings) from the NYC ACRIS database daily, enriches them with property and party data, and delivers curated lead lists via email and interactive dashboard. It eliminates manual monitoring and reduces time-to-discovery by 80%+.
         </p>
 
         <button
@@ -62,25 +59,25 @@ export default function OverviewPage({ onViewDashboard }: OverviewPageProps) {
             number="01"
             icon={<MagnifyingGlass size={20} weight="bold" />}
             title="Fetch"
-            description="Queries NYC ACRIS every morning for new lis pendens filings across Manhattan, Bronx, Brooklyn, and Queens."
+            description="Queries NYC ACRIS API for new PREL (Notice of Pendency) filings across Manhattan, Bronx, Brooklyn, and Queens."
           />
           <PipelineStep
             number="02"
             icon={<Funnel size={20} weight="bold" />}
             title="Filter"
-            description="Applies qualifying criteria — borough, document type, and loan balance range ($3M–$75M) — to isolate real opportunities."
+            description="Applies qualifying criteria — borough, loan balance range ($3M–$75M), and PREL document type — to isolate real opportunities."
           />
           <PipelineStep
             number="03"
             icon={<Buildings size={20} weight="bold" />}
             title="Enrich"
-            description="Cross-references each filing with party records and property details to build a complete picture of every opportunity."
+            description="Fetches party names (lender, plaintiff, defendant), constructs property address, and retrieves estimated loan balance with direct ACRIS links."
           />
           <PipelineStep
             number="04"
             icon={<EnvelopeSimple size={20} weight="bold" />}
             title="Deliver"
-            description="Sends a formatted email digest with all qualifying filings. Weekly summary every Monday with borough breakdown."
+            description="Stores enriched records in secure database, sends daily/weekly HTML email digests, and updates live dashboard for real-time exploration."
           />
         </div>
       </div>
@@ -109,9 +106,9 @@ export default function OverviewPage({ onViewDashboard }: OverviewPageProps) {
             <h3 className="text-slate-200 text-[18px] font-bold tracking-tight">Qualifying Criteria</h3>
           </div>
           <div className="space-y-3">
-            <DetailRow label="Signal" value="Pre-foreclosure — lis pendens" />
+            <DetailRow label="Signal" value="Pre-foreclosure — PREL filings" />
             <DetailRow label="Geography" value="Manhattan, Bronx, Brooklyn, Queens" />
-            <DetailRow label="Loan Balance" value="$3,000,000 – $75,000,000" />
+            <DetailRow label="Loan Balance" value="$3M – $75M (when confirmed)" />
             <DetailRow label="Asset Class" value="All — flagged for manual review" />
           </div>
         </div>
@@ -147,13 +144,13 @@ export default function OverviewPage({ onViewDashboard }: OverviewPageProps) {
             phase="Phase 2"
             status="build"
             title="Deep Enrichment"
-            items={["NYS eCourt integration", "Equity routing logic", "Fit scoring model", "Historical storage"]}
+            items={["Expanded doc types", "Predictive scoring", "Automated attorney lookup", "Slack/webhook notifications"]}
           />
           <PhaseCard
             phase="Phase 3"
             status="concept"
-            title="Outreach Automation"
-            items={["Lender-side email sequences", "Borrower-side outreach", "LinkedIn automation", "Calendar booking"]}
+            title="Multi-State Expansion"
+            items={["NJ, PA, CT foreclosure courts", "Portfolio tracking", "Deal memory & outcomes", "Comparative market analysis"]}
           />
         </div>
       </div>

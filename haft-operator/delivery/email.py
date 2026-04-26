@@ -56,6 +56,7 @@ def _build_records_table(records: list[dict]) -> str:
         <th style="text-align:right;padding:10px 8px;background-color:#1a1a2e;color:#fff;font-weight:600;">Est. Balance</th>
         <th style="text-align:left;padding:10px 8px;background-color:#1a1a2e;color:#fff;font-weight:600;">Balance Source</th>
         <th style="text-align:center;padding:10px 8px;background-color:#1a1a2e;color:#fff;font-weight:600;">ACRIS</th>
+        <th style="text-align:center;padding:10px 8px;background-color:#1a1a2e;color:#fff;font-weight:600;">NYSCEF</th>
       </tr>
     """
 
@@ -75,6 +76,7 @@ def _build_records_table(records: list[dict]) -> str:
         <td style="padding:8px;border-bottom:1px solid #eee;text-align:right;">{_format_currency(r.get('estimated_loan_balance'))}</td>
         <td style="padding:8px;border-bottom:1px solid #eee;">{balance_source}</td>
         <td style="padding:8px;border-bottom:1px solid #eee;text-align:center;"><a href="{r.get('acris_url', '#')}" style="color:#1a73e8;text-decoration:none;">View</a></td>
+        <td style="padding:8px;border-bottom:1px solid #eee;text-align:center;">{f'<a href="{r["nyscef_url"]}" style="color:#1a73e8;text-decoration:none;">Search</a>' if r.get("nyscef_url") else "—"}</td>
       </tr>""")
 
     return header + "\n".join(rows) + "\n    </table>"

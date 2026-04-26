@@ -36,10 +36,12 @@ EXCLUDED_BOROUGHS = ["5"]
 # Pre-foreclosure / distress signal doc_type values.
 #
 # Verified against live ACRIS API (Apr 2026):
-# "PREL" = Notice of Pendency (lis pendens) — 118k+ records in ACRIS.
-# This is the correct doc_type for pre-foreclosure filings.
+# "PREL" = Notice of Pendency (lis pendens) — machine code variant
+# "LIS PENDENS" = Notice of Pendency (lis pendens) — human-readable variant
+# Both are equivalent; ACRIS returns either depending on source/timing.
 DOC_TYPE_LIS_PENDENS = [
     "PREL",
+    "LIS PENDENS",
 ]
 
 # ---------------------------------------------------------------------------
@@ -69,4 +71,20 @@ ASSET_CLASS_FLAG = "unverified — manual review required"
 
 ACRIS_DOCUMENT_URL = (
     "https://a836-acris.nyc.gov/DS/DocumentSearch/DocumentImageView?doc_id={document_id}"
+)
+
+# ---------------------------------------------------------------------------
+# NYSCEF Case Search URL (manual lookup — no API available)
+# ---------------------------------------------------------------------------
+
+# Maps borough name to NYSCEF county court ID for search links
+NYSCEF_COUNTY_IDS = {
+    "Manhattan": "3",
+    "Bronx": "119",
+    "Brooklyn": "29",
+    "Queens": "114",
+}
+
+NYSCEF_SEARCH_URL = (
+    "https://iapps.courts.state.ny.us/nyscef/CaseSearch?TAB=name"
 )
