@@ -64,8 +64,10 @@ def _run_daily() -> None:
     subject = f"HAFT Daily Sourcing — {len(enriched)} new filings — {today}"
     html = format_daily_email(enriched, today)
 
-    send_email(subject, html)
-    logger.info("Daily digest sent: %d records", len(enriched))
+    # EMAILS FROZEN — uncomment to resume
+    # send_email(subject, html)
+    # logger.info("Daily digest sent: %d records", len(enriched))
+    logger.info("Daily digest prepared (EMAILS FROZEN): %d records", len(enriched))
 
 
 def _run_weekly() -> None:
@@ -84,8 +86,10 @@ def _run_weekly() -> None:
     subject = f"HAFT Weekly Digest — {len(enriched)} filings — Week of {today}"
     html = format_weekly_email(enriched, today, breakdown)
 
-    send_email(subject, html)
-    logger.info("Weekly digest sent: %d records", len(enriched))
+    # EMAILS FROZEN — uncomment to resume
+    # send_email(subject, html)
+    # logger.info("Weekly digest sent: %d records", len(enriched))
+    logger.info("Weekly digest prepared (EMAILS FROZEN): %d records", len(enriched))
 
 
 # ---------------------------------------------------------------------------
